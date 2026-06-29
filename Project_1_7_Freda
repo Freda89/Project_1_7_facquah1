@@ -1,13 +1,15 @@
 """
 Program Name: Project 1-7 Study Planner
 Author: Freda Acquah
-Purpose: This program lets the user make a study task list, view the list,
-    mark tasks complete, and see a short summary.
+Purpose: This program lets the user make a study task list, view the list, mark tasks complete, and see a short summary.
 Starter Code: No starter code was used.
 Date: June 28, 2026
 """
 
+# task categories used when adding tasks
 categories = ("Python", "Math", "Reading", "Personal")
+
+# Priority names used when displaying tasks
 priority_names = {
     1: "Low",
     2: "Medium",
@@ -25,3 +27,45 @@ def show_menu():
     print("5. View all tasks")
     print("6. Quit")
 
+
+def add_task(task_list):
+    # Add a new task to the task list.
+    print("\nAdd a New Task")
+    title = input("Enter the task name: ").strip()
+    while title == "":
+        print("The task name cannot be blank.")
+        title = input("Enter the task name: ").strip()
+    print("\nCategories:")
+    for number in range(len(categories)):
+        print(f"{number + 1}. {categories[number]}")
+        
+    # Choose a category by number
+    category_choice = input("Choose a category number: ")
+    while not category_choice.isdigit() or int(category_choice) < 1 or int(category_choice) > len(categories):
+        print("That is not a valid category.")
+        category_choice = input("Choose a category number: ")
+    minutes = input("How many minutes will it take? ")
+    
+    # use a while loop to validate that the user enters a positive number for minutes
+    while not minutes.isdigit() or int(minutes) <= 0:
+        print("Please enter a positive number.")
+        minutes = input("How many minutes will it take? ")
+    print("\nPriority:")
+    print("1. Low")
+    print("2. Medium")
+    print("3. High")
+
+    #ask the user to choose a priority number and validate the input
+    priority = input("Choose a priority number: ")
+    while not priority.isdigit() or int(priority) < 1 or int(priority) > 3:
+        print("Please choose 1, 2, or 3.")
+        priority = input("Choose a priority number: ")
+    task = {
+        "title": title.title(),
+        "category": categories[int(category_choice) - 1],
+        "minutes": int(minutes),
+        "priority": int(priority),
+        "done": False,
+    }
+    task_list.append(task)
+    print(f"{task['title']} was added.")
