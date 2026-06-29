@@ -38,7 +38,7 @@ def add_task(task_list):
     print("\nCategories:")
     for number in range(len(categories)):
         print(f"{number + 1}. {categories[number]}")
-        
+
     # Choose a category by number
     category_choice = input("Choose a category number: ")
     while not category_choice.isdigit() or int(category_choice) < 1 or int(category_choice) > len(categories):
@@ -69,3 +69,54 @@ def add_task(task_list):
     }
     task_list.append(task)
     print(f"{task['title']} was added.")
+
+def show_tasks(task_list, show_all):
+    # Show either all tasks or only tasks that are not complete.
+    if show_all:
+        print("\nAll Tasks")
+    else:
+        print("\nActive Tasks")
+    task_number = 1
+    tasks_found = 0
+    for task in task_list:
+        if show_all or not task["done"]:
+            if task["done"]:
+                status = "Complete"
+            else:
+                status = "Active"
+            priority = priority_names[task["priority"]]
+            print(
+                f"{task_number}. {task['title']} - {task['category']}, "
+                f"{task['minutes']} minutes, {priority}, {status}"
+            )
+            task_number += 1
+            tasks_found += 1
+    # If no tasks matched the filter, tell the user
+    if tasks_found == 0:
+        print("There are no tasks to show.")
+
+
+def complete_task(task_list):
+    """Let the user choose an active task and mark it complete."""
+    # Build a list of active (not done) tasks for selection
+    active_tasks = []
+    for task in task_list:
+        if not task["done"]:
+            active_tasks.append(task)
+    if len(active_tasks) == 0:
+        print("\nThere are no active tasks to complete.")
+    else:
+        print("\nChoose a Task to Complete")
+        for number in range(len(active_tasks)):
+            task = active_tasks[number]
+            print(f"{number + 1}. {task['title']}")
+        choice = input("Enter the task number: ")
+        while not choice.isdigit() or int(choice) < 1 or int(choice) > len(active_tasks):
+            print("That task number is not on the list.")
+            choice = input("Enter the task number: ")
+        active_tasks[int(choice) - 1]["done"] = True
+        print("The task was marked complete.")
+
+
+
+
